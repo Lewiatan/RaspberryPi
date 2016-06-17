@@ -1,0 +1,24 @@
+{
+  "name": "lewiatan/raspberry-pi",
+  "description": "PHP library for Raspberry Pi",
+  "type": "library",
+  "require-dev": {
+    "phpspec/phpspec": "^2.5",
+    "mockery/mockery": "^0.9.5"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lewiatan",
+      "email": "lewiatan.hpc@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Raspberry\\": "src/Raspberry"
+    }
+  },
+  "require": {
+    "mrrio/shellwrap": "^0.4.1"
+  }
+}

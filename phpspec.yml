@@ -1,0 +1,3 @@
+suites:
+  rasbperry_suite: Raspberry
+  gpio_pin_suite: Raspberry\GPIO
