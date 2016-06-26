@@ -84,4 +84,15 @@ class PinSpec extends ObjectBehavior
         $this->read();
     }
 
+    function it_toggles_state() {
+        $this->gpio->shouldReceive('setState')->once()->with(1, 1);
+        $this->gpio->shouldReceive('setState')->once()->with(1, 0);
+
+        $this->toggleState();
+        $this->state()->shouldBe(1);
+
+        $this->toggleState();
+        $this->state()->shouldBe(0);
+
+    }
 }

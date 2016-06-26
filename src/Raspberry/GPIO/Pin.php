@@ -57,4 +57,9 @@ class Pin
     {
         return $this->gpio->readState($this->pin);
     }
+
+    public function toggleState()
+    {
+        $this->state((int) ! $this->state);
+    }
 }
