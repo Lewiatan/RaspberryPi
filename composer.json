@@ -2,6 +2,9 @@
   "name": "lewiatan/raspberry-pi",
   "description": "PHP library for Raspberry Pi",
   "type": "library",
+  "require": {
+    "mrrio/shellwrap": "dev-master"
+  },
   "require-dev": {
     "phpspec/phpspec": "^2.5",
     "mockery/mockery": "^0.9.5"
@@ -17,8 +20,5 @@
     "psr-4": {
       "Raspberry\\": "src/Raspberry"
     }
-  },
-  "require": {
-    "mrrio/shellwrap": "^0.4.1"
   }
 }
