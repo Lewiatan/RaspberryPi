@@ -32,25 +32,25 @@ class PinSpec extends ObjectBehavior
     }
 
     function it_sets_low_state() {
-        $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::LOW);
+        $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::LOW)->andReturnSelf();
 
         $this->state(GPIO::LOW);
     }
 
     function it_sets_hi_state() {
-        $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::HI);
+        $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::HI)->andReturnSelf();
 
         $this->state(GPIO::HI);
     }
 
     function it_sets_in_mode() {
-        $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::IN);
+        $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::IN)->andReturnSelf();
 
         $this->mode(GPIO::IN);
     }
 
     function it_sets_out_mode() {
-        $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::OUT);
+        $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::OUT)->andReturnSelf();
 
         $this->mode(GPIO::OUT);
     }

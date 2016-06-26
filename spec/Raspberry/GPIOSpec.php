@@ -56,7 +56,7 @@ class GPIOSpec extends ObjectBehavior
     function it_sets_in_mode() {
         $this->shell->shouldReceive('gpio')->once()->with([
             'g' => 'mode 1 in'
-        ]);
+        ])->andReturnSelf();
 
         $this->setMode(1, GPIO::IN);
     }
@@ -64,7 +64,7 @@ class GPIOSpec extends ObjectBehavior
     function it_sets_out_mode() {
         $this->shell->shouldReceive('gpio')->once()->with([
             'g' => 'mode 1 out'
-        ]);
+        ])->andReturnSelf();
 
         $this->setMode(1, GPIO::OUT);
     }
@@ -72,7 +72,7 @@ class GPIOSpec extends ObjectBehavior
     function it_sets_hi_state() {
         $this->shell->shouldReceive('gpio')->once()->with([
             'g' => 'write 1 1'
-        ]);
+        ])->andReturnSelf();
 
         $this->setState(1, GPIO::HI);
     }
@@ -80,7 +80,7 @@ class GPIOSpec extends ObjectBehavior
     function it_sets_low_state() {
         $this->shell->shouldReceive('gpio')->once()->with([
             'g' => 'write 1 0'
-        ]);
+        ])->andReturnSelf();
 
         $this->setState(1, GPIO::LOW);
     }

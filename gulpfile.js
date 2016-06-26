@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 gulp.task('test', function() {
     gulp.src('spec/**/*.php')
-        .pipe($.phpspec('', {notify: true}))
+        .pipe($.phpspec('', {notify: true, verbose: 'v'}))
         .on('error', $.notify.onError(notification('fail')))
         .pipe($.notify(notification('pass', {'onLast' : true})));
 });
