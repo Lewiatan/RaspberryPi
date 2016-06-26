@@ -51,6 +51,8 @@ class PinSpec extends ObjectBehavior
     }
 
     function it_returns_state() {
+        $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::HI);
+
         $this->state()->shouldBe(0);
         $this->state(GPIO::HI);
         $this->state()->shouldBe(GPIO::HI);
@@ -69,6 +71,8 @@ class PinSpec extends ObjectBehavior
     }
 
     function it_returns_mode() {
+        $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::IN);
+
         $this->mode()->shouldBe(GPIO::OUT);
         $this->mode(GPIO::IN);
         $this->mode()->shouldBe(GPIO::IN);
@@ -79,4 +83,5 @@ class PinSpec extends ObjectBehavior
 
         $this->read();
     }
+
 }
