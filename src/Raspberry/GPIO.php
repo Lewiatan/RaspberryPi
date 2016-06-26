@@ -28,8 +28,8 @@ class GPIO
         $this->checkMode($mode);
 
         $this->shell->gpio([
-            'g' => sprintf('mode %d %s', $pin, $mode)
-        ]);
+            'g' => true
+        ], sprintf('mode %d %s', $pin, $mode));
 
         return $this;
     }
@@ -40,8 +40,8 @@ class GPIO
         $this->checkState($state);
 
         $this->shell->gpio([
-            'g' => sprintf('write %d %s', $pin, $state)
-        ]);
+            'g' => true
+        ], sprintf('write %d %s', $pin, $state));
 
         return $this;
     }
@@ -51,8 +51,8 @@ class GPIO
         $this->checkPin($pin);
 
         return $this->shell->gpio([
-            'g' => sprintf('read %d', $pin)
-        ]);
+            'g' => true
+        ], sprintf('read %d', $pin));
     }
 
     protected function checkMode($mode)
