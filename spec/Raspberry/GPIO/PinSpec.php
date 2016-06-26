@@ -18,6 +18,8 @@ class PinSpec extends ObjectBehavior
 
     function let() {
         $this->gpio = Mockery::mock('Raspberry\GPIO');
+        $this->gpio->shouldReceive('setState')->with($this->pin, 0);
+        $this->gpio->shouldReceive('setMode')->with($this->pin, 'out');
 
         $this->beConstructedWith($this->pin, $this->gpio);
     }
@@ -31,6 +33,11 @@ class PinSpec extends ObjectBehavior
         $this->getPin()->shouldBe(1);
     }
 
+    function it_should_be_initialized_with_low_state() {
+        $this->state()->shouldBe(0);
+    }
+
+
     function it_sets_low_state() {
         $this->gpio->shouldReceive('setState')->with($this->pin, GPIO::LOW)->andReturnSelf();
 
@@ -43,6 +50,12 @@ class PinSpec extends ObjectBehavior
         $this->state(GPIO::HI);
     }
 
+    function it_returns_state() {
+        $this->state()->shouldBe(0);
+        $this->state(GPIO::HI);
+        $this->state()->shouldBe(GPIO::HI);
+    }
+
     function it_sets_in_mode() {
         $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::IN)->andReturnSelf();
 
@@ -53,6 +66,12 @@ class PinSpec extends ObjectBehavior
         $this->gpio->shouldReceive('setMode')->with($this->pin, GPIO::OUT)->andReturnSelf();
 
         $this->mode(GPIO::OUT);
+    }
+
+    function it_returns_mode() {
+        $this->mode()->shouldBe(GPIO::OUT);
+        $this->mode(GPIO::IN);
+        $this->mode()->shouldBe(GPIO::IN);
     }
 
     function it_reads_state() {

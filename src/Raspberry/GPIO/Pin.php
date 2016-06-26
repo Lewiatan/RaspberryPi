@@ -7,6 +7,8 @@ use Raspberry\GPIO;
 class Pin
 {
     protected $pin;
+    protected $state;
+    protected $mode;
 
     public function __construct($pin, GPIO $gpio = null)
     {
@@ -17,6 +19,8 @@ class Pin
         $this->gpio = $gpio;
         $this->pin = $pin;
 
+        $this->state(GPIO::LOW)->mode(GPIO::OUT);
+
         return $this;
     }
 
@@ -25,16 +29,26 @@ class Pin
         return $this->pin;
     }
 
-    public function mode($mode)
+    public function mode($mode = null)
     {
+        if ($mode === null) {
+            return $this->mode;
+        }
+
         $this->gpio->setMode($this->pin, $mode);
+        $this->mode = $mode;
 
         return $this;
     }
 
-    public function state($state)
+    public function state($state = null)
     {
+        if ($state === null) {
+            return $this->state;
+        }
+
         $this->gpio->setState($this->pin, $state);
+        $this->state = $state;
 
         return $this;
     }
