@@ -1,5 +1,7 @@
 <?php namespace Raspberry;
 
+use Raspberry\Interfaces\ScriptInterface;
+
 class Pi
 {
     private static $instance;
@@ -27,12 +29,16 @@ class Pi
             throw new \InvalidArgumentException('Script name is invalid');
         }
 
-        if (is_string($script) && (! file_exists($script) && ! class_exists($script))) {
-            throw new \InvalidArgumentException('Script does not exist');
+        if (is_string($script)) {
+            if (class_exists($script)) {
+                $script = new $script();
+            } else {
+                throw new \InvalidArgumentException('Given script does not exist');
+            }
         }
 
-        if (is_object($script) && ! ($script instanceof \Closure)) {
-            throw new \InvalidArgumentException('Script is not an closure.');
+        if (is_object($script) && ! ($script instanceof ScriptInterface) &&  ! ($script instanceof \Closure)) {
+            throw new \InvalidArgumentException('Script class has to implement Raspberry\Interfaces\ScriptInterface or be an Closure');
         }
 
         $this->scripts[$name] = $script;
@@ -41,5 +47,34 @@ class Pi
     public function getScripts()
     {
         return $this->scripts;
+    }
+
+    public function getScript($name)
+    {
+        if ( ! $this->isScriptRegistered($name)) {
+            throw new \InvalidArgumentException(sprintf('Script %s does not exist', $name));
+        }
+
+        return $this->scripts[$name];
+    }
+
+    public function runScript($name)
+    {
+        $script = $this->getScript($name);
+
+        if ($script instanceof \Closure) {
+            return $script();
+        }
+
+        return $script->run();
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    private function isScriptRegistered($name)
+    {
+        return array_key_exists($name, $this->scripts);
     }
 }

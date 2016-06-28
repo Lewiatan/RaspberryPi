@@ -2,8 +2,10 @@
 
 namespace spec\Raspberry;
 
+use Mockery;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Raspberry\Scripts\ExampleScript;
 
 class PiSpec extends ObjectBehavior
 {
@@ -40,11 +42,46 @@ class PiSpec extends ObjectBehavior
         ]);
     }
 
+    public function getsOneScript()
+    {
+        $script = function() {};
+
+        $this->registerScript('test', $script);
+
+        $this->getScript('test')->shouldBe($script);
+    }
+
     function it_registers_script_class() {
+        $script = Mockery::mock('Raspberry\Interfaces\ScriptInterface');
+        $this->registerScript('MockedScript', $script);
+
+        $instance = new ExampleScript();
         $this->registerScript('ExampleScript', 'Raspberry\Scripts\ExampleScript');
 
-        $this->getScripts()->shouldReturn([
-            'ExampleScript' => 'Raspberry\Scripts\ExampleScript'
+        $this->getScripts()->shouldBeLike([
+            'MockedScript' => $script,
+            'ExampleScript' => $instance
         ]);
+    }
+
+    function it_throws_exception_when_script_not_exits() {
+        $this->shouldThrow('\InvalidArgumentException')
+            ->duringRunScript('test');
+    }
+
+    function it_runs_registered_script_class() {
+        $script = Mockery::mock('Raspberry\Interfaces\ScriptInterface');
+        $script->shouldReceive('run')->withNoArgs()->once();
+
+        $this->registerScript('test', $script);
+        $this->runScript('test');
+    }
+
+    function it_runs_registered_closure() {
+        $this->registerScript('test', function() {
+            return 'Closure has run';
+        });
+
+        $this->runScript('test')->shouldBe('Closure has run');
     }
 }
