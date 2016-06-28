@@ -1,6 +1,7 @@
 <?php namespace Raspberry\Devices;
 
 use Raspberry\Interfaces\Device;
+use MrRio\ShellWrap as sh;
 
 class DS18B20 implements Device
 {
