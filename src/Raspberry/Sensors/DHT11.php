@@ -16,7 +16,7 @@ class DHT11 implements Sensor
 
     public function read()
     {
-        $read = sh::sudo('python', $this->sriptPath . '/' . $this->scriptName);
+        $read = sh::sudo('python', $this->scriptPath . '/' . $this->scriptName);
 
         $reading = explode('|', $read);
 
