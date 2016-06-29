@@ -11,12 +11,12 @@ class DHT11 implements Sensor
     private $scriptPath;
 
     public function __construct() {
-        $this->scriptPath = Pi::instance()->getDirectory();
+        $this->scriptPath = Pi::instance()->getDirectory() . '/Python/';
     }
 
     public function read()
     {
-        $read = sh::sudo('python', $this->scriptPath . '/' . $this->scriptName);
+        $read = sh::sudo(['S' => true], 'python', $this->scriptPath . $this->scriptName);
 
         $reading = explode('|', $read);
 
