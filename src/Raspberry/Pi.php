@@ -1,6 +1,6 @@
 <?php namespace Raspberry;
 
-use Raspberry\Interfaces\ScriptInterface;
+use Raspberry\Interfaces\Script;
 
 class Pi
 {
@@ -9,6 +9,8 @@ class Pi
     protected $scripts = [];
 
     private function __construct() {}
+
+    private static $directory = __DIR__;
 
     public static function instance() {
         if ( ! (self::$instance instanceof Pi)) {
@@ -21,6 +23,10 @@ class Pi
     public function destroy()
     {
         self::$instance = null;
+    }
+
+    public function getDirectory() {
+        return static::$directory;
     }
 
     public function registerScript($name, $script)
@@ -37,7 +43,7 @@ class Pi
             }
         }
 
-        if (is_object($script) && ! ($script instanceof ScriptInterface) &&  ! ($script instanceof \Closure)) {
+        if (is_object($script) && ! ($script instanceof Script) &&  ! ($script instanceof \Closure)) {
             throw new \InvalidArgumentException('Script class has to implement Raspberry\Interfaces\ScriptInterface or be an Closure');
         }
 

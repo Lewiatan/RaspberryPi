@@ -1,6 +1,6 @@
 <?php namespace Raspberry\Interfaces;
 
-interface ScriptInterface
+interface Script
 {
     public function run();
 }

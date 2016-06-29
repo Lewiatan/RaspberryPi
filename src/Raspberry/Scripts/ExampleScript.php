@@ -1,8 +1,8 @@
 <?php namespace Raspberry\Scripts;
 
-use Raspberry\Interfaces\ScriptInterface;
+use Raspberry\Interfaces\Script;
 
-class ExampleScript implements ScriptInterface
+class ExampleScript implements Script
 {
 
     public function run()
