@@ -52,7 +52,7 @@ class PiSpec extends ObjectBehavior
     }
 
     function it_registers_script_class() {
-        $script = Mockery::mock('Raspberry\Interfaces\ScriptInterface');
+        $script = Mockery::mock('Raspberry\Interfaces\Script');
         $this->registerScript('MockedScript', $script);
 
         $instance = new ExampleScript();
@@ -70,7 +70,7 @@ class PiSpec extends ObjectBehavior
     }
 
     function it_runs_registered_script_class() {
-        $script = Mockery::mock('Raspberry\Interfaces\ScriptInterface');
+        $script = Mockery::mock('Raspberry\Interfaces\Script');
         $script->shouldReceive('run')->withNoArgs()->once();
 
         $this->registerScript('test', $script);
