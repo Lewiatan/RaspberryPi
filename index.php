@@ -29,3 +29,7 @@ $pi->registerScript('script3', 'SomeAwesomeScriptClass');
 $pi->runScript('script1');
 $pi->runScript('script2');
 $pi->runScript('script3');
+
+
+$pr = new \Raspberry\Devices\PowerRelay();
+$pr->setTotalChannels(4)->setChannels([1, 2, 3, 4]);

@@ -26,6 +26,11 @@ class PiSpec extends ObjectBehavior
         $this->shouldHaveType('Raspberry\Pi');
     }
 
+    function it_returns_directory() {
+        $this->getDirectory()->shouldContain('src/Raspberry');
+    }
+
+
     function it_registers_scripts() {
         $this->registerScript('test', function() {});
     }
