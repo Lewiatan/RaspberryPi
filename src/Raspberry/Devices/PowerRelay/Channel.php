@@ -21,12 +21,15 @@ class Channel
             $pin = new Pin($pin);
         }
 
-        $this->state = ($initialState === null) ? self::OFF : $initialState;
-
         $pin->mode(GPIO::OUT);
-        $pin->state($this->state);
 
         $this->pin = $pin;
+
+        if ($initialState) {
+            $this->state($initialState);
+        } else {
+            $this->state = $this->state();
+        }
     }
 
     public function on()

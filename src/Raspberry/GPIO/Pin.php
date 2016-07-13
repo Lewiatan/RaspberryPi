@@ -19,7 +19,8 @@ class Pin
         $this->gpio = $gpio;
         $this->pin = $pin;
 
-        $this->state(GPIO::LOW)->mode(GPIO::OUT);
+        $this->mode(GPIO::OUT);
+        $this->state = $this->read();
 
         return $this;
     }
