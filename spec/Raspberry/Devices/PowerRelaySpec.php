@@ -8,17 +8,8 @@ use Prophecy\Argument;
 
 class PowerRelaySpec extends ObjectBehavior
 {
-    private $shell;
-    private $pin;
-
     function let() {
-        $shell = Mockery::mock('MrRio\ShellWrap');
-        $pin = Mockery::mock('Raspberry\GPIO\Pin');
-
-        $this->shell = $shell;
-        $this->pin = $pin;
-
-        $this->beConstructedWith(4, $pin);
+        $this->beConstructedWith(2);
     }
 
     function it_is_initializable()
@@ -27,47 +18,38 @@ class PowerRelaySpec extends ObjectBehavior
     }
 
     function it_sets_total_channels() {
-        $this->getTotalChannels()->shouldBe(4);
-
-        $this->setTotalChannels(2);
-
         $this->getTotalChannels()->shouldBe(2);
+
+        $this->setTotalChannels(4);
+
+        $this->getTotalChannels()->shouldBe(4);
     }
 
     function it_throws_exception_when_wrong_channels_provided() {
         $this->shouldThrow('InvalidArgumentException')->during('setTotalChannels', [3]);
     }
 
+    function it_throws_exception_when_assigning_more_channels_than_available() {
+        $this->shouldThrow('InvalidArgumentException')->during('setChannels', [range(1, 5)]);
+    }
+
+    function it_detects_wrong_channel_when_passed() {
+        $pin = Mockery::mock('Raspberry\GPIO\Pin');
+
+        $this->shouldThrow('InvalidArgumentException')->during('setChannels', [[$pin]]);
+    }
+
     function it_sets_and_returns_channels() {
-        $pins = [];
-        foreach (range(1, 4) as $i) {
-            $pin = Mockery::mock('Raspberry\GPIO\Pin');
-            $pin->shouldReceive('mode')->once();
-            $pins[] = $pin;
+        $channels = [];
+        foreach (range(1, 2) as $i) {
+            $channels[] = Mockery::mock('Raspberry\Devices\PowerRelay\Channel');
         }
 
-        $this->setChannels($pins);
+        $this->setChannels($channels);
 
-        $this->getChannels()->shouldBe($pins);
-    }
+        $this->getChannels()->shouldBe($channels);
 
-    function it_turns_channel_on() {
-        $pin = Mockery::mock('Raspberry\GPIO\Pin');
-        $pin->shouldReceive('mode')->once();
-        $pin->shouldReceive('state')->once()->with(0);
-
-        $this->setChannels([ 1 => $pin]);
-
-        $this->on(1);
-    }
-
-    function it_turns_channel_off() {
-        $pin = Mockery::mock('Raspberry\GPIO\Pin');
-        $pin->shouldReceive('mode')->once();
-        $pin->shouldReceive('state')->once()->with(1);
-
-        $this->setChannels([ 1 => $pin]);
-
-        $this->off(1);
+        $this->channel(0)->shouldBe($channels[0]);
+        $this->channel(1)->shouldBe($channels[1]);
     }
 }

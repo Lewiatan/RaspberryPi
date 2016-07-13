@@ -1,29 +1,17 @@
 <?php namespace Raspberry\Devices;
 
-use Raspberry\GPIO;
-use Raspberry\GPIO\Pin;
+use Raspberry\Devices\PowerRelay\Channel;
 use Raspberry\Interfaces\Device;
 
 class PowerRelay implements Device
 {
-    const ON = GPIO::LOW;
-    const OFF = GPIO::HI;
-
     private $AVAILABLE_CHANNELS_COUNT = [1, 2, 4, 8];
 
     private $totalChannels;
 
     private $channels = [];
 
-    private $pin;
-
-    public function __construct($totalChannels = null, Pin $pin = null) {
-        if ($pin === null) {
-            $pin = new Pin(0);
-        }
-
-        $this->pin = $pin;
-
+    public function __construct($totalChannels = null) {
         if ($totalChannels !== null) {
             $this->setTotalChannels($totalChannels);
         }
@@ -56,18 +44,19 @@ class PowerRelay implements Device
      */
     public function setChannels(array $channels)
     {
-        foreach ($channels as $i => $pin) {
-            if ( ! is_int($pin) && ! is_object($pin)) {
-                throw new \InvalidArgumentException('Wrong pin provided');
+        $this->checkMaximumChannels($channels);
+
+        foreach ($channels as $i => $channel) {
+            if ( ! $this->isValidChannel($channel)) {
+                throw new \InvalidArgumentException('Wrong channel provided');
             }
 
-            if (is_int($pin)) {
-                $pin = new $this->pin($pin);
+            if (is_int($channel)) {
+                $channel = new Channel($channel);
             }
 
-            $pin->mode(GPIO::OUT);
 
-            $this->channels[$i] = $pin;
+            $this->channels[$i] = $channel;
         }
 
         return $this;
@@ -78,28 +67,33 @@ class PowerRelay implements Device
         return $this->channels;
     }
 
-    public function on($channel)
+    public function channel($channel)
     {
         $this->checkChannel($channel);
 
-        $this->channels[$channel]->state(self::ON);
-
-        return $this;
-    }
-
-    public function off($channel)
-    {
-        $this->checkChannel($channel);
-
-        $this->channels[$channel]->state(self::OFF);
-
-        return $this;
+        return $this->channels[$channel];
     }
 
     private function checkChannel($channel)
     {
         if ( ! array_key_exists($channel, $this->channels)) {
             throw new \InvalidArgumentException('Provided channel does not exists');
+        }
+    }
+
+    /**
+     * @param $channel
+     * @return bool
+     */
+    private function isValidChannel($channel)
+    {
+        return is_int($channel) || (is_object($channel) && $channel instanceof Channel);
+    }
+
+    private function checkMaximumChannels($channels)
+    {
+        if (count($channels) > $this->totalChannels) {
+            throw new \InvalidArgumentException('You\'re trying to assing more channels than is available.');
         }
     }
 
