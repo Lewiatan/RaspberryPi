@@ -28,7 +28,7 @@ class Channel
         if ($initialState) {
             $this->state($initialState);
         } else {
-            $this->state = $this->state();
+            $this->state = $pin->state();
         }
     }
 
