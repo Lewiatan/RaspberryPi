@@ -16,7 +16,7 @@ class ChannelSpec extends ObjectBehavior
     function let() {
         $pin = Mockery::mock('Raspberry\GPIO\Pin');
         $pin->shouldReceive('mode')->once()->with('out');
-        $pin->shouldReceive('state')->once()->with(1);
+        $pin->shouldReceive('state')->once();
 
         $this->beConstructedWith($pin);
 
@@ -68,8 +68,11 @@ class ChannelSpec extends ObjectBehavior
     }
 
     function it_toggles_state() {
+        $this->pin->shouldReceive('state')->once()->with(1);
         $this->pin->shouldReceive('state')->once()->with(0);
         $this->pin->shouldReceive('state')->once()->with(1);
+
+        $this->off();
 
         $this->isOff()->shouldReturn(true);
         $this->toggle();

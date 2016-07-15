@@ -14,7 +14,7 @@ class Channel
     public function __construct($pin, $initialState = null)
     {
         if (! $this->isValidPin($pin)) {
-            throw new \InvalidArgumentException('Wrong pin provided');
+            throw new \InvalidArgumentException('Wrong pin cprovided');
         }
 
         if (is_int($pin)) {
