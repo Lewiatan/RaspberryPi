@@ -9,9 +9,7 @@ class DS18B20Detector
 
     public static function detect()
     {
-        $devices = self::getDevices();
-
-        return $devices;
+        return self::getDevices();
     }
 
     private static function getDevices()
