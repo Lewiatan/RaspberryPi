@@ -14,8 +14,6 @@ class DS18B20Detector
 
     private static function getDevices()
     {
-        return sh::ls([
-            'd' => self::$path . self::$pattern
-        ]);
+        return sh::ls('-d', self::$path . self::$pattern);
     }
 }
