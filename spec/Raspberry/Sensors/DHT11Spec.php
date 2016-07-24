@@ -25,6 +25,14 @@ class DHT11Spec extends ObjectBehavior
         $this->shouldHaveType('Raspberry\Sensors\DHT11');
     }
 
+    function it_gets_sensor_id() {
+        $this->getId()->shouldReturn('DHT11');
+    }
+
+    function it_gets_sensor_name() {
+        $this->getName()->shouldReturn('DHT11');
+    }
+
     function it_sets_script_name() {
         $this->getScriptName()->shouldReturn($this->scriptName);
     }

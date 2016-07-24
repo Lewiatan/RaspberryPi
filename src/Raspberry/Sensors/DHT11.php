@@ -7,7 +7,8 @@ use Raspberry\Pi;
 
 class DHT11 implements Sensor
 {
-
+    private $id = 'DHT11';
+    private $name = 'DHT11';
     private $scriptName = 'dht11.py';
     private $scriptPath;
     private $shell;
@@ -28,6 +29,16 @@ class DHT11 implements Sensor
         if ($scriptName !== null) {
             $this->scriptName = $scriptName;
         }
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getScriptName()

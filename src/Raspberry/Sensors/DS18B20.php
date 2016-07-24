@@ -8,6 +8,7 @@ class DS18B20 implements Sensor
 {
     private $path = '/sys/bus/w1/devices/w1_bus_master1/';
     private $id = '';
+    private $name = 'DS18B20';
 
     public function __construct($id, ShellWrap $shell = null) {
         if ($shell === null) {
@@ -22,6 +23,11 @@ class DS18B20 implements Sensor
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function read() {

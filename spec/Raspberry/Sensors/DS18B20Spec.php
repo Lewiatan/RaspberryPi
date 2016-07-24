@@ -26,6 +26,10 @@ class DS18B20Spec extends ObjectBehavior
         $this->getId()->shouldBe(1);
     }
 
+    function it_gets_sensor_name() {
+        $this->getName()->shouldReturn('DS18B20');
+    }
+
     function it_returns_reading() {
         $this->shell->shouldReceive('cat')->once()
             ->with('/sys/bus/w1/devices/w1_bus_master1/1/w1_slave')
