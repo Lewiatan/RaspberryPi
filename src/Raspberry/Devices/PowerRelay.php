@@ -5,11 +5,11 @@ use Raspberry\Interfaces\Device;
 
 class PowerRelay implements Device
 {
-    private $AVAILABLE_CHANNELS_COUNT = [1, 2, 4, 8];
+    protected $AVAILABLE_CHANNELS_COUNT = [1, 2, 4, 8];
 
-    private $totalChannels;
+    protected $totalChannels;
 
-    private $channels = [];
+    protected $channels = [];
 
     public function __construct($totalChannels = null) {
         if ($totalChannels !== null) {
@@ -52,9 +52,8 @@ class PowerRelay implements Device
             }
 
             if (is_int($channel)) {
-                $channel = new Channel($channel);
+                $channel = $this->makeChannel($channel);
             }
-
 
             $this->channels[$i] = $channel;
         }
@@ -74,7 +73,16 @@ class PowerRelay implements Device
         return $this->channels[$channel];
     }
 
-    private function checkChannel($channel)
+    /**
+     * @param $channel
+     * @return Channel
+     */
+    protected function makeChannel($channel)
+    {
+        return new Channel($channel);
+    }
+
+    protected function checkChannel($channel)
     {
         if ( ! array_key_exists($channel, $this->channels)) {
             throw new \InvalidArgumentException('Provided channel does not exists');
@@ -85,12 +93,12 @@ class PowerRelay implements Device
      * @param $channel
      * @return bool
      */
-    private function isValidChannel($channel)
+    protected function isValidChannel($channel)
     {
         return is_int($channel) || (is_object($channel) && $channel instanceof Channel);
     }
 
-    private function checkMaximumChannels($channels)
+    protected function checkMaximumChannels($channels)
     {
         if (count($channels) > $this->totalChannels) {
             throw new \InvalidArgumentException('You\'re trying to assing more channels than is available.');
