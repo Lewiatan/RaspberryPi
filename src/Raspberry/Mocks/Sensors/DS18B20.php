@@ -1,4 +1,4 @@
-<?php namespace Raspberry\Sensors\Mocs;
+<?php namespace Raspberry\Mocks\Sensors;
 
 use Raspberry\Interfaces\Sensor;
 

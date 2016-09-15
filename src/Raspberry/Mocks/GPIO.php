@@ -1,4 +1,4 @@
-<?php namespace Raspberry\Mocs;
+<?php namespace Raspberry\Mocks;
 
 class GPIO extends \Raspberry\GPIO
 {
