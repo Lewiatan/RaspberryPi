@@ -14,6 +14,7 @@ class GPIO extends \Raspberry\GPIO
         $this->pins[$pin] = ['mode' => $mode];
 
         return $this;
+
     }
 
     public function setState($pin, $state)
