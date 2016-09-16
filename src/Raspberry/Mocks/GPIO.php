@@ -11,7 +11,7 @@ class GPIO extends \Raspberry\GPIO
         $this->checkPin($pin);
         $this->checkMode($mode);
 
-        $this->pins[$pin]['mode'] = $mode;
+        $this->pins[$pin] = ['mode' => $mode];
 
         return $this;
     }
@@ -21,7 +21,7 @@ class GPIO extends \Raspberry\GPIO
         $this->checkPin($pin);
         $this->checkState($state);
 
-        $this->pins[$pin]['state'] = $state;
+        $this->pins[$pin] = ['state' => $state];
 
         return $this;
     }
@@ -29,6 +29,10 @@ class GPIO extends \Raspberry\GPIO
     public function readState($pin)
     {
         $this->checkPin($pin);
+
+        if ( ! isset($this->pins[$pin]['state'])) {
+            return GPIO::LOW;
+        }
 
         return $this->pins[$pin]['state'];
     }
